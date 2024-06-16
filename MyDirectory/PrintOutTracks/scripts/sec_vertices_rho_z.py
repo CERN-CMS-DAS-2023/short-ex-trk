@@ -1,7 +1,7 @@
 import DataFormats.FWLite as fwlite
 import math
 import ROOT
-ks_rho_z_histogram     = ROOT.TH2F("ks_rho_z","K_{s} #rho-#z;z [cm];#rho [cm]", 100, 0.0, 30.0, 100, 0.0, 10.0)
+ks_rho_z_histogram     = ROOT.TH2F("ks_rho_z","K_{s} #rho-z;z [cm];#rho [cm]", 100, 0.0, 30.0, 100, 0.0, 10.0)
 lambda_rho_z_histogram = ROOT.TH2F("lambda_rho_z","#Lambda #rho-z;z [cm];#rho [cm]", 100, 0.0, 30.0, 100, 0.0, 10.0)
 
 events = fwlite.Events("file:../test/output.root")

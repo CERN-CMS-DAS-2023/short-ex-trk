@@ -7,13 +7,13 @@ ROOT.gROOT.SetBatch(True)
 
 def isGoodPV(vertex):
     if ( vertex.isFake()        or \
-         vertex.ndof < 4.0      or \
+         vertex.ndof() < 4.0      or \
          abs(vertex.z()) > 24.0 or \
          abs(vertex.position().Rho()) > 2):
            return False
     return True
 
-events          = fwlite.Events("/eos/user/c/cmsdas/2023/short-ex-trk/run321167_ZeroBias_AOD.root")
+events          = fwlite.Events("/eos/user/c/cmsdas/2024/short-ex-trk/run321167_ZeroBias_AOD.root")
 primaryVertices = fwlite.Handle("std::vector<reco::Vertex>")
 beamspot        = fwlite.Handle("reco::BeamSpot")
 vtx_position, N_vtx = array( 'd' ), array( 'd' )
@@ -38,7 +38,7 @@ for event in events:
     event.getByLabel("offlineBeamSpot", beamspot)
 
     if last_beamspot == None or last_beamspot != beamspot.product().x0():
-        print "New beamspot IOV (interval of validity)..."
+        print("New beamspot IOV (interval of validity)...")
 
         ## first save tgraph and then reset
         if (iIOV > 0):

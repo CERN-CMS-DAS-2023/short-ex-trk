@@ -28,68 +28,39 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
- #include "FWCore/Utilities/interface/InputTag.h"
- #include "DataFormats/TrackReco/interface/Track.h"
- #include "DataFormats/TrackReco/interface/TrackFwd.h"
+#include "FWCore/Utilities/interface/InputTag.h"
+#include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/TrackReco/interface/TrackFwd.h"
 //
 // class declaration
 //
 
-// If the analyzer does not use TFileService, please remove
-// the template argument to the base class so the class inherits
-// from  edm::one::EDAnalyzer<>
-// This will improve performance in multithreaded jobs.
-
-
 using reco::TrackCollection;
 
 class PrintOutTracks : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
-   public:
-      explicit PrintOutTracks(const edm::ParameterSet&);
-      ~PrintOutTracks();
+public:
+  explicit PrintOutTracks(const edm::ParameterSet&);
+  ~PrintOutTracks() override = default;
 
-      static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
+  static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
+  
 
-
-   private:
-      virtual void beginJob() override;
-      virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
-      virtual void endJob() override;
-
-      // ----------member data ---------------------------
-  //      edm::EDGetTokenT<TrackCollection> tracksToken_;  //used to select what tracks to read from configuration file
+private:
+  virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
+  
+  // ----------member data ---------------------------
   edm::EDGetTokenT<edm::View<reco::Track> > tracksToken_;  //used to select which tracks to read from configuration file
   int indexEvent_;
-
 };
-
-//
-// constants, enums and typedefs
-//
-
-//
-// static data member definitions
-//
 
 //
 // constructors and destructor
 //
 PrintOutTracks::PrintOutTracks(const edm::ParameterSet& iConfig)
- :
-  //  tracksToken_(consumes<TrackCollection>(iConfig.getUntrackedParameter<edm::InputTag>("tracks")))
-  tracksToken_(consumes<edm::View<reco::Track> >(iConfig.getUntrackedParameter<edm::InputTag>("tracks", edm::InputTag("generalTracks")) ))
+ : tracksToken_(consumes<edm::View<reco::Track> >(iConfig.getUntrackedParameter<edm::InputTag>("tracks", edm::InputTag("generalTracks")) ))
 {
-   //now do what ever initialization is needed
+  //now do what ever initialization is needed
   indexEvent_ = 0;
-}
-
-
-PrintOutTracks::~PrintOutTracks()
-{
-
-   // do anything here that needs to be done at desctruction time
-   // (e.g. close files, deallocate resources etc.)
-
 }
 
 
@@ -121,40 +92,15 @@ PrintOutTracks::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      iTrack++;
    }
    ++indexEvent_;
-
-#ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
-   ESHandle<SetupData> pSetup;
-   iSetup.get<SetupRecord>().get(pSetup);
-#endif
 }
 
-
-// ------------ method called once each job just before starting event loop  ------------
-void
-PrintOutTracks::beginJob()
-{
-}
-
-// ------------ method called once each job just after ending the event loop  ------------
-void
-PrintOutTracks::endJob()
-{
-}
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
 PrintOutTracks::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
-  //The following says we do not know what parameters are allowed so do no validation
-  // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
-  desc.setUnknown();
-  descriptions.addDefault(desc);
-
-  //Specify that only 'tracks' is allowed
-  //To use, remove the default given above and uncomment below
-  //ParameterSetDescription desc;
-  //desc.addUntracked<edm::InputTag>("tracks","ctfWithMaterialTracks");
-  //descriptions.addDefault(desc);
+  desc.addUntracked<edm::InputTag>("tracks",edm::InputTag("generalTracks"));
+  descriptions.addWithDefaultLabel(desc);
 }
 
 //define this as a plug-in

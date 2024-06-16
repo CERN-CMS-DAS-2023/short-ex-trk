@@ -4,13 +4,13 @@ import ROOT
 
 def isGoodPV(vertex):
     if ( vertex.isFake()        or 
-         vertex.ndof < 4.0      or 
+         vertex.ndof() < 4.0      or 
          abs(vertex.z()) > 24.0 or 
          abs(vertex.position().Rho()) > 2):
            return False
     return True
 
-events          = fwlite.Events("/eos/user/c/cmsdas/2023/short-ex-trk/run321167_ZeroBias_AOD.root")
+events          = fwlite.Events("/eos/user/c/cmsdas/2024/short-ex-trk/run321167_ZeroBias_AOD.root")
 primaryVertices = fwlite.Handle("std::vector<reco::Vertex>")
 beamspot        = fwlite.Handle("reco::BeamSpot")
 
@@ -28,7 +28,7 @@ for event in events:
     event.getByLabel("offlineBeamSpot", beamspot)
 
     if last_beamspot == None or last_beamspot != beamspot.product().x0():
-        print "New beamspot IOV (interval of validity)..."
+        print("New beamspot IOV (interval of validity)...")
         last_beamspot       = beamspot.product().x0()
         sumx = 0.0
         N = 0
@@ -41,8 +41,8 @@ for event in events:
         vtx_xz.Fill(vertex.x(), vertex.z())
         vtx_yz.Fill(vertex.y(), vertex.z())
         if N % 1000 == 0:
-            print "Mean of primary vertices:", sumx/N,
-            print "Beamspot:", beamspot.product().x0()
+            print("Mean of primary vertices:", sumx/N)
+            print("Beamspot:", beamspot.product().x0())
             
 c = ROOT.TCanvas( "c", "c", 1200, 600)
 c.Divide(3,1)

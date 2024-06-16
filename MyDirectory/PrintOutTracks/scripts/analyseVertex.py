@@ -19,6 +19,6 @@ for i, event in enumerate(events):
             dy = secondary.vy() - primary.y()
             dz = secondary.vz() - primary.z()
             dl = math.sqrt(dx**2 + dy**2 + dz**2)
-            print "Normalized momentum:", px/p, py/p, pz/p,
-            print "Normalized displacement:", dx/dl, dy/dl, dz/dl
+            print("Normalized momentum:", px/p, py/p, pz/p)
+            print("Normalized displacement:", dx/dl, dy/dl, dz/dl)
     if i > 20: break

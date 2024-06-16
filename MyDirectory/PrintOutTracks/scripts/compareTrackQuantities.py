@@ -2,8 +2,8 @@ import DataFormats.FWLite as fwlite
 import ROOT
 ROOT.gROOT.SetBatch(True)
 
-events = fwlite.Events("/eos/user/c/cmsdas/2023/short-ex-trk/run321167_ZeroBias_MINIAOD.root")
-eventsAOD = fwlite.Events("/eos/user/c/cmsdas/2023/short-ex-trk/run321167_ZeroBias_AOD.root")
+events = fwlite.Events("/eos/user/c/cmsdas/2024/short-ex-trk/run321167_ZeroBias_MINIAOD.root")
+eventsAOD = fwlite.Events("/eos/user/c/cmsdas/2024/short-ex-trk/run321167_ZeroBias_AOD.root")
 
 tracks     = fwlite.Handle("std::vector<pat::PackedCandidate>")
 losttracks = fwlite.Handle("std::vector<pat::PackedCandidate>")
